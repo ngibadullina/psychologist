@@ -38,12 +38,14 @@ astro.config.ts    конфигурация Astro: site, base, интеграц�
 Адрес сайта задаётся в одном месте — [`src/config/site.ts`](src/config/site.ts):
 
 ```ts
-export const SITE_URL = 'https://USERNAME.github.io';
-export const BASE_PATH = '/PsychologistWebsite';
+export const SITE_URL = 'https://yradov.github.io';
+export const BASE_PATH = '/psychologist';
 ```
 
 - GitHub Pages в подпапке: `SITE_URL = 'https://USERNAME.github.io'`, `BASE_PATH = '/REPOSITORY'`
 - Собственный домен: `SITE_URL = 'https://example.com'`, `BASE_PATH = '/'`
+
+Локальный адрес сайта при `npm run dev` — `http://localhost:4321/psychologist/`.
 
 Все внутренние ссылки и пути к файлам из `public/` строятся через `withBase()`
 из [`src/utils/url.ts`](src/utils/url.ts), поэтому смена сценария не требует правок в компонентах.
