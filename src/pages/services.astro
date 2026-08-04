@@ -1,0 +1,49 @@
+---
+import Button from '~/components/Button.astro';
+import Section from '~/components/Section.astro';
+import ServiceCard from '~/components/ServiceCard.astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { SERVICE_GROUPS } from '~/config/services';
+import { withBase } from '~/utils/url';
+---
+
+<BaseLayout
+  title="Запити"
+  description="Теми, з якими можна звернутися на консультацію: емоційний стан, вигорання, тривога, самооцінка, особисті кордони."
+>
+  <Section narrow>
+    <h1>З якими запитами працюю</h1>
+    <p class="lead">
+      Нижче — теми, з якими найчастіше звертаються. Якщо вашого запиту немає в
+      списку, напишіть: разом розберемося, чи зможу я бути корисною.
+    </p>
+  </Section>
+
+  <Section variant="subtle">
+    <div class="card-grid">
+      {SERVICE_GROUPS.map((group) => <ServiceCard group={group} headingLevel={2} />)}
+    </div>
+  </Section>
+
+  <Section narrow>
+    <p class="text-muted">
+      Консультація не замінює медичну допомогу. Якщо ви приймаєте призначене
+      лікування, психологічна робота може йти паралельно з ним.
+    </p>
+    <p class="services__actions">
+      <Button href={withBase('/contacts/')}>Записатися на консультацію</Button>
+      <Button href={withBase('/format/')} variant="ghost">
+        Формат роботи
+      </Button>
+    </p>
+  </Section>
+</BaseLayout>
+
+<style>
+  .services__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-block-start: var(--space-lg);
+  }
+</style>

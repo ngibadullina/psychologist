@@ -1,0 +1,43 @@
+---
+import '~/styles/global.css';
+import Footer from '~/components/Footer.astro';
+import Header from '~/components/Header.astro';
+import { SITE } from '~/config/site';
+import { withBase } from '~/utils/url';
+
+interface Props {
+  /** Заголовок страницы без названия сайта */
+  title?: string;
+  /** Описание для meta description */
+  description?: string;
+}
+
+const { title, description = SITE.description } = Astro.props;
+
+const pageTitle = title ? `${title} — ${SITE.name}` : SITE.title;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<!doctype html>
+<html lang={SITE.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Перейти до основного вмісту</a>
+
+    <Header />
+
+    <main id="main" class="page-main">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

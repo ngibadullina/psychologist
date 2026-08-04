@@ -1,0 +1,148 @@
+---
+import { CONTACTS, NAV_LINKS, SITE } from '~/config/site';
+import { withBase } from '~/utils/url';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__name">{SITE.author}</p>
+      <p class="site-footer__role">{SITE.role}</p>
+      <p class="site-footer__location">{CONTACTS.location}</p>
+    </div>
+
+    <nav class="site-footer__nav" aria-label="Навігація в підвалі">
+      <ul class="site-footer__list">
+        {
+          NAV_LINKS.map((link) => (
+            <li>
+              <a class="site-footer__link" href={withBase(link.href)}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="site-footer__contacts">
+      <h2 class="site-footer__heading">Зв'язатися</h2>
+      <ul class="site-footer__list">
+        <li>
+          <a class="site-footer__link" href={`mailto:${CONTACTS.email}`}>
+            {CONTACTS.email}
+          </a>
+        </li>
+        <li>
+          <a
+            class="site-footer__link"
+            href={CONTACTS.telegram.url}
+            target="_blank"
+            rel="noopener"
+          >
+            Telegram {CONTACTS.telegram.label}
+          </a>
+        </li>
+        <li>
+          <a
+            class="site-footer__link"
+            href={CONTACTS.instagram.url}
+            target="_blank"
+            rel="noopener"
+          >
+            Instagram {CONTACTS.instagram.label}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <p class="site-footer__legal">
+      © {year} {SITE.author} ·
+      <a class="site-footer__link" href={withBase('/privacy/')}>
+        Політика конфіденційності
+      </a>
+    </p>
+    <p class="site-footer__note">
+      Матеріали сайту мають інформаційний характер і не замінюють очну
+      консультацію спеціаліста.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-block-start: var(--space-2xl);
+    padding-block: var(--space-xl) var(--space-lg);
+    background-color: var(--color-bg-subtle);
+    border-block-start: var(--border-width) solid var(--color-border);
+    font-size: var(--fs-sm);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  .site-footer__name {
+    font-family: var(--font-heading);
+    font-size: var(--fs-lg);
+  }
+
+  .site-footer__role,
+  .site-footer__location {
+    color: var(--color-text-muted);
+  }
+
+  .site-footer__heading {
+    margin-block-end: var(--space-2xs);
+    font-family: var(--font-body);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .site-footer__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer__link {
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  .site-footer__link:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  .site-footer__bottom {
+    display: grid;
+    gap: var(--space-2xs);
+    margin-block-start: var(--space-lg);
+    padding-block-start: var(--space-md);
+    border-block-start: var(--border-width) solid var(--color-border);
+    color: var(--color-text-muted);
+    font-size: var(--fs-xs);
+  }
+
+  @media (min-width: 48em) {
+    .site-footer__inner {
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: var(--space-xl);
+    }
+
+    .site-footer__nav .site-footer__list {
+      padding-block-start: calc(var(--fs-sm) + var(--space-2xs));
+    }
+  }
+</style>

@@ -1,0 +1,52 @@
+---
+/**
+ * Секция страницы: единый вертикальный ритм + контейнер.
+ * Заголовок необязателен; уровень заголовка задаётся явно, чтобы не ломать иерархию.
+ */
+interface Props {
+  id?: string;
+  title?: string;
+  /** Уровень заголовка секции: 2 по умолчанию */
+  headingLevel?: 2 | 3;
+  /** Узкий контейнер для текстовых блоков */
+  narrow?: boolean;
+  /** Слегка затемнённый фон для чередования секций */
+  variant?: 'default' | 'subtle';
+  class?: string;
+}
+
+const {
+  id,
+  title,
+  headingLevel = 2,
+  narrow = false,
+  variant = 'default',
+  class: className,
+} = Astro.props;
+
+const Heading = headingLevel === 3 ? 'h3' : 'h2';
+---
+
+<section
+  id={id}
+  class:list={['section', variant === 'subtle' && 'section--subtle', className]}
+>
+  <div class:list={['container', narrow && 'container--narrow']}>
+    {title && <Heading class="section__title">{title}</Heading>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section {
+    padding-block: var(--section-spacing);
+  }
+
+  .section--subtle {
+    background-color: var(--color-bg-subtle);
+  }
+
+  .section__title {
+    margin-block-end: var(--space-md);
+  }
+</style>

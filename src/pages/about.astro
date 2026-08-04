@@ -1,0 +1,162 @@
+---
+import { Image } from 'astro:assets';
+
+import Button from '~/components/Button.astro';
+import Section from '~/components/Section.astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { SITE } from '~/config/site';
+import { withBase } from '~/utils/url';
+
+import portrait from '~/assets/portrait.jpg';
+---
+
+<BaseLayout
+  title="Про мене"
+  description="Наталія Гібадулліна — психолог-консультант, гештальт-терапевт. Про підхід до роботи та методи, з якими працюю."
+>
+  <Section>
+    <div class="about">
+      <div class="about__media">
+        <Image
+          src={portrait}
+          alt={`${SITE.author}, ${SITE.role.toLowerCase()}`}
+          widths={[280, 420]}
+          sizes="(min-width: 48em) 18rem, 60vw"
+          format="webp"
+          quality="high"
+          loading="lazy"
+          class="about__image"
+        />
+      </div>
+
+      <div class="about__content">
+        <h1>Про мене</h1>
+
+        <p class="lead">
+          Я — психолог-консультант, <span class="nowrap">гештальт-терапевт</span>.
+          У своїй роботі допомагаю людині краще зрозуміти себе, свої емоції та
+          внутрішні процеси.
+        </p>
+
+        <p>
+          Працюю з темами тривоги, складних стосунків, внутрішніх конфліктів і
+          повторюваних життєвих сценаріїв. Мені важливо не просто «прибрати
+          симптом», а допомогти знайти глибші причини стану та відновити контакт
+          із собою.
+        </p>
+
+        <p>
+          У роботі поєдную гештальт-підхід із метафоричними асоціативними картами
+          (МАК) та системними розстановками (ССТ), що дозволяє делікатно і
+          водночас глибоко працювати з емоціями та родовими сценаріями.
+        </p>
+
+        <p>
+          Я створюю безпечний простір, де можна бути собою, краще почути себе і
+          поступово знаходити внутрішню опору та ясність у житті.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <Section title="Методи, з якими працюю" variant="subtle" narrow>
+    <dl class="methods">
+      <dt>Гештальт-підхід</dt>
+      <dd>
+        Робота з тим, що відбувається тут і зараз: почуття, потреби та способи
+        контакту зі світом.
+      </dd>
+
+      <dt>Метафоричні асоціативні карти (МАК)</dt>
+      <dd>
+        Образи допомагають побачити ситуацію під іншим кутом і дібрати слова до
+        того, що складно висловити напряму.
+      </dd>
+
+      <dt>Системні розстановки (ССТ)</dt>
+      <dd>
+        Погляд на родинні та життєві сценарії, які повторюються з покоління в
+        покоління.
+      </dd>
+    </dl>
+  </Section>
+
+  <Section title="Освіта та досвід" narrow>
+    <p class="text-muted">
+      Блок-заглушка. Тут буде інформація про освіту, навчальні програми та
+      підвищення кваліфікації — додам після того, як ви надішлете дані.
+    </p>
+  </Section>
+
+  <Section narrow variant="subtle">
+    <p class="lead">
+      Якщо відгукується — напишіть, і ми домовимося про зустріч.
+    </p>
+    <p class="about__actions">
+      <Button href={withBase('/contacts/')}>Записатися на консультацію</Button>
+      <Button href={withBase('/services/')} variant="ghost">
+        З якими запитами працюю
+      </Button>
+    </p>
+  </Section>
+</BaseLayout>
+
+<style>
+  .about {
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  .about__media {
+    max-width: 16rem;
+  }
+
+  .about__image {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+
+  .about__content > * + * {
+    margin-block-start: var(--space-md);
+  }
+
+  .about__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-block-start: var(--space-lg);
+  }
+
+  .methods {
+    display: grid;
+    gap: var(--space-3xs);
+  }
+
+  .methods dt {
+    font-weight: var(--fw-medium);
+  }
+
+  .methods dd {
+    margin: 0;
+    margin-block-end: var(--space-md);
+    color: var(--color-text-muted);
+  }
+
+  .methods dd:last-child {
+    margin-block-end: 0;
+  }
+
+  @media (min-width: 48em) {
+    .about {
+      grid-template-columns: 18rem 1fr;
+      gap: var(--space-2xl);
+      align-items: start;
+    }
+
+    .about__media {
+      max-width: none;
+    }
+  }
+</style>

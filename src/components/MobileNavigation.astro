@@ -1,0 +1,168 @@
+---
+import { CONTACTS, NAV_LINKS } from '~/config/site';
+import { isActivePath, withBase } from '~/utils/url';
+
+const currentPath = Astro.url.pathname;
+---
+
+<div class="mobile-nav" id="mobile-nav" hidden>
+  <nav class="mobile-nav__inner" aria-label="Мобільна навігація">
+    <ul class="mobile-nav__list">
+      {
+        NAV_LINKS.map((link) => (
+          <li>
+            <a
+              class="mobile-nav__link"
+              href={withBase(link.href)}
+              aria-current={isActivePath(currentPath, link.href) ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mobile-nav__contacts">
+      <a class="mobile-nav__contact" href={`mailto:${CONTACTS.email}`}>
+        {CONTACTS.email}
+      </a>
+      <a
+        class="mobile-nav__contact"
+        href={CONTACTS.telegram.url}
+        target="_blank"
+        rel="noopener"
+      >
+        Telegram {CONTACTS.telegram.label}
+      </a>
+    </div>
+  </nav>
+</div>
+
+<style>
+  .mobile-nav {
+    position: fixed;
+    inset-block-start: var(--header-height);
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: var(--z-overlay);
+    overflow-y: auto;
+    background-color: var(--color-bg);
+    border-block-start: var(--border-width) solid var(--color-border);
+  }
+
+  .mobile-nav[hidden] {
+    display: none;
+  }
+
+  .mobile-nav__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    padding: var(--space-lg) var(--container-padding) var(--space-2xl);
+  }
+
+  .mobile-nav__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mobile-nav__link {
+    display: block;
+    padding: var(--space-xs) var(--space-2xs);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    font-size: var(--fs-lg);
+    text-decoration: none;
+  }
+
+  .mobile-nav__link:hover {
+    background-color: var(--color-accent-soft);
+    color: var(--color-text);
+  }
+
+  .mobile-nav__link[aria-current='page'] {
+    color: var(--color-accent);
+    font-weight: var(--fw-medium);
+  }
+
+  .mobile-nav__contacts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    padding-block-start: var(--space-md);
+    border-block-start: var(--border-width) solid var(--color-border);
+    font-size: var(--fs-sm);
+  }
+
+  .mobile-nav__contact {
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  .mobile-nav__contact:hover {
+    color: var(--color-accent);
+  }
+
+  /* На планшете и десктопе мобильное меню не участвует в разметке */
+  @media (min-width: 48em) {
+    .mobile-nav {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const panel = document.getElementById('mobile-nav');
+  const desktop = window.matchMedia('(min-width: 48em)');
+
+  if (toggle && panel) {
+    const setOpen = (open: boolean) => {
+      panel.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+      document.body.classList.toggle('has-open-menu', open);
+
+      // Пока меню открыто, остальной контент недоступен клавиатуре и скринридеру.
+      // Панель лежит внутри <header>, поэтому сама остаётся активной.
+      document.querySelectorAll('main, footer').forEach((element) => {
+        element.toggleAttribute('inert', open);
+      });
+    };
+
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      setOpen(!isOpen);
+
+      if (!isOpen) {
+        panel.querySelector<HTMLAnchorElement>('a')?.focus();
+      }
+    });
+
+    // Esc закрывает меню и возвращает фокус на кнопку
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    // Переход по ссылке закрывает меню (важно для якорных ссылок)
+    panel.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) {
+        setOpen(false);
+      }
+    });
+
+    // При переходе на десктопную ширину состояние сбрасывается
+    desktop.addEventListener('change', (event) => {
+      if (event.matches) {
+        setOpen(false);
+      }
+    });
+  }
+</script>

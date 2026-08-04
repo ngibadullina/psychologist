@@ -1,0 +1,108 @@
+---
+import { Image } from 'astro:assets';
+
+import Button from '~/components/Button.astro';
+import { CONTACTS, SITE } from '~/config/site';
+import { withBase } from '~/utils/url';
+
+/**
+ * Первый экран: фотография, имя, специализация, короткий текст и две кнопки записи.
+ *
+ * Фотография лежит в src/assets/portrait.jpg — сейчас это заглушка.
+ * Чтобы поставить реальное фото: замените файл с тем же именем
+ * (портретная ориентация, от 1000 px по ширине) — код менять не нужно.
+ */
+import portrait from '~/assets/portrait.jpg';
+---
+
+<section class="hero">
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <p class="hero__role">{SITE.role}</p>
+      <h1 class="hero__name">{SITE.author}</h1>
+      <p class="lead hero__lead">
+        Індивідуальні консультації онлайн та очно. Простір, де можна спокійно
+        розібратися у своїх почуттях — без поспіху, оцінок і тиску.
+      </p>
+
+      <div class="hero__actions">
+        <Button href={withBase('/contacts/')}>Записатися на консультацію</Button>
+        <Button href={CONTACTS.telegram.url} variant="secondary" external>
+          Написати в Telegram
+        </Button>
+      </div>
+    </div>
+
+    <div class="hero__media">
+      <Image
+        src={portrait}
+        alt={`${SITE.author}, ${SITE.role.toLowerCase()}`}
+        widths={[320, 480, 640]}
+        sizes="(min-width: 62em) 22rem, (min-width: 48em) 40vw, 100vw"
+        format="webp"
+        quality="high"
+        loading="eager"
+        class="hero__image"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: var(--section-spacing);
+  }
+
+  .hero__inner {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  .hero__role {
+    color: var(--color-text-muted);
+    font-size: var(--fs-sm);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .hero__name {
+    margin-block-start: var(--space-2xs);
+  }
+
+  .hero__lead {
+    margin-block-start: var(--space-md);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-block-start: var(--space-lg);
+  }
+
+  .hero__media {
+    order: -1;
+    max-width: 20rem;
+  }
+
+  .hero__image {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+
+  @media (min-width: 48em) {
+    .hero__inner {
+      grid-template-columns: 1.3fr 1fr;
+      gap: var(--space-2xl);
+    }
+
+    .hero__media {
+      order: 0;
+      justify-self: end;
+      max-width: 22rem;
+    }
+  }
+</style>

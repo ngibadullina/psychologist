@@ -1,0 +1,179 @@
+---
+import MobileNavigation from '~/components/MobileNavigation.astro';
+import { NAV_LINKS, SITE } from '~/config/site';
+import { isActivePath, withBase } from '~/utils/url';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href={withBase('/')}>
+      <span class="brand__name">{SITE.author}</span>
+      <span class="brand__role">{SITE.role}</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Основна навігація">
+      <ul class="site-nav__list">
+        {
+          NAV_LINKS.map((link) => (
+            <li>
+              <a
+                class="site-nav__link"
+                href={withBase(link.href)}
+                aria-current={isActivePath(currentPath, link.href) ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <button
+      class="nav-toggle"
+      id="nav-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+    >
+      <span class="nav-toggle__bars" aria-hidden="true"></span>
+      <span class="nav-toggle__label">Меню</span>
+    </button>
+  </div>
+
+  <MobileNavigation />
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: var(--z-header);
+    background-color: var(--color-bg);
+    border-block-end: var(--border-width) solid var(--color-border);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    min-height: var(--header-height);
+  }
+
+  .brand {
+    display: flex;
+    flex-direction: column;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .brand__name {
+    font-family: var(--font-heading);
+    font-size: var(--fs-lg);
+    line-height: var(--lh-tight);
+  }
+
+  .brand__role {
+    color: var(--color-text-muted);
+    font-size: var(--fs-xs);
+  }
+
+  .brand:hover .brand__name {
+    color: var(--color-accent);
+  }
+
+  /* ---------- Десктопная навигация ---------- */
+
+  .site-nav {
+    display: none;
+  }
+
+  .site-nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-nav__link {
+    display: inline-block;
+    padding: var(--space-3xs) var(--space-2xs);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    font-size: var(--fs-sm);
+    text-decoration: none;
+  }
+
+  .site-nav__link:hover {
+    color: var(--color-accent);
+  }
+
+  .site-nav__link[aria-current='page'] {
+    color: var(--color-text);
+    font-weight: var(--fw-medium);
+  }
+
+  /* ---------- Кнопка мобильного меню ---------- */
+
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-height: 2.75rem;
+    padding: var(--space-3xs) var(--space-2xs);
+    background: none;
+    border: var(--border-width) solid var(--color-border-strong);
+    border-radius: var(--radius-pill);
+    color: var(--color-text);
+    font-size: var(--fs-sm);
+    cursor: pointer;
+  }
+
+  .nav-toggle:hover {
+    border-color: var(--color-accent);
+  }
+
+  .nav-toggle__bars,
+  .nav-toggle__bars::before,
+  .nav-toggle__bars::after {
+    display: block;
+    width: 1.125rem;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: var(--radius-pill);
+  }
+
+  .nav-toggle__bars {
+    position: relative;
+  }
+
+  .nav-toggle__bars::before,
+  .nav-toggle__bars::after {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+  }
+
+  .nav-toggle__bars::before {
+    inset-block-start: -0.3125rem;
+  }
+
+  .nav-toggle__bars::after {
+    inset-block-start: 0.3125rem;
+  }
+
+  @media (min-width: 48em) {
+    .site-nav {
+      display: block;
+    }
+
+    .nav-toggle {
+      display: none;
+    }
+  }
+</style>

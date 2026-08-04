@@ -1,0 +1,36 @@
+---
+import ContactBlock from '~/components/ContactBlock.astro';
+import Section from '~/components/Section.astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Контакти"
+  description="Як зв’язатися та записатися на психологічну консультацію: пошта, Telegram, Instagram."
+>
+  <Section narrow>
+    <h1>Контакти та запис</h1>
+    <p class="lead">
+      Напишіть зручним способом — відповім і домовимося про час зустрічі.
+    </p>
+
+    <div class="contacts-wrap">
+      <ContactBlock />
+    </div>
+
+    <p class="text-muted contacts-note">
+      У повідомленні достатньо коротко описати запит і зручний час. Відповідаю
+      зазвичай протягом дня <em>(уточнити)</em>.
+    </p>
+  </Section>
+</BaseLayout>
+
+<style>
+  .contacts-wrap {
+    margin-block-start: var(--space-lg);
+  }
+
+  .contacts-note {
+    margin-block-start: var(--space-xl);
+  }
+</style>

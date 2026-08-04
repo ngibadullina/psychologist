@@ -1,0 +1,88 @@
+---
+import Button from '~/components/Button.astro';
+import { CONTACTS } from '~/config/site';
+
+interface Props {
+  /** Показывать подробный список контактов под кнопками */
+  showDetails?: boolean;
+}
+
+const { showDetails = true } = Astro.props;
+---
+
+<div class="contact-block">
+  <div class="contact-block__actions">
+    <Button href={`mailto:${CONTACTS.email}`}>Написати на пошту</Button>
+    <Button href={CONTACTS.telegram.url} variant="secondary" external>
+      Telegram
+    </Button>
+    <Button href={CONTACTS.instagram.url} variant="secondary" external>
+      Instagram
+    </Button>
+  </div>
+
+  {
+    showDetails && (
+      <dl class="contact-block__list">
+        <dt>Пошта</dt>
+        <dd>
+          <a href={`mailto:${CONTACTS.email}`}>{CONTACTS.email}</a>
+        </dd>
+
+        <dt>Telegram</dt>
+        <dd>
+          <a href={CONTACTS.telegram.url} target="_blank" rel="noopener">
+            {CONTACTS.telegram.label}
+          </a>
+        </dd>
+
+        <dt>Instagram</dt>
+        <dd>
+          <a href={CONTACTS.instagram.url} target="_blank" rel="noopener">
+            {CONTACTS.instagram.label}
+          </a>
+        </dd>
+
+        <dt>Формат</dt>
+        <dd>{CONTACTS.location}</dd>
+      </dl>
+    )
+  }
+</div>
+
+<style>
+  .contact-block__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .contact-block__list {
+    display: grid;
+    gap: var(--space-3xs) var(--space-md);
+    margin-block-start: var(--space-lg);
+    padding-block-start: var(--space-md);
+    border-block-start: var(--border-width) solid var(--color-border);
+  }
+
+  .contact-block__list dt {
+    color: var(--color-text-muted);
+    font-size: var(--fs-sm);
+  }
+
+  .contact-block__list dd {
+    margin: 0;
+    margin-block-end: var(--space-2xs);
+  }
+
+  @media (min-width: 36em) {
+    .contact-block__list {
+      grid-template-columns: 8rem 1fr;
+      align-items: baseline;
+    }
+
+    .contact-block__list dd {
+      margin-block-end: 0;
+    }
+  }
+</style>

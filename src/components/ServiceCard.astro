@@ -1,0 +1,52 @@
+---
+import type { ServiceGroup } from '~/config/services';
+
+interface Props {
+  group: ServiceGroup;
+  /** Уровень заголовка карточки — зависит от иерархии страницы */
+  headingLevel?: 2 | 3;
+}
+
+const { group, headingLevel = 3 } = Astro.props;
+
+const Heading = headingLevel === 2 ? 'h2' : 'h3';
+---
+
+<article class="card service-card" id={group.id}>
+  <Heading class="service-card__title">{group.title}</Heading>
+  <ul class="service-card__list">
+    {group.items.map((item) => <li class="service-card__item">{item}</li>)}
+  </ul>
+</article>
+
+<style>
+  .service-card__title {
+    font-size: var(--fs-lg);
+  }
+
+  .service-card__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    margin-block-start: var(--space-sm);
+    padding: 0;
+    list-style: none;
+  }
+
+  .service-card__item {
+    position: relative;
+    padding-inline-start: var(--space-sm);
+    color: var(--color-text-muted);
+  }
+
+  .service-card__item::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0.65em;
+    inset-inline-start: 0;
+    width: 0.375rem;
+    height: 0.375rem;
+    background-color: var(--color-accent);
+    border-radius: var(--radius-pill);
+  }
+</style>

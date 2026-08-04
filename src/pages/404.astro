@@ -1,0 +1,40 @@
+---
+import Button from '~/components/Button.astro';
+import Section from '~/components/Section.astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { withBase } from '~/utils/url';
+---
+
+<BaseLayout
+  title="Сторінку не знайдено"
+  description="Такої сторінки немає. Поверніться на головну або перегляньте блог."
+>
+  <Section narrow>
+    <p class="notfound__code">404</p>
+    <h1>Такої сторінки немає</h1>
+    <p class="lead">
+      Можливо, адреса змінилася або в посиланні є помилка.
+    </p>
+
+    <div class="notfound__actions">
+      <Button href={withBase('/')}>На головну</Button>
+      <Button href={withBase('/blog/')} variant="secondary">До блогу</Button>
+      <Button href={withBase('/contacts/')} variant="ghost">Контакти</Button>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  .notfound__code {
+    color: var(--color-text-muted);
+    font-family: var(--font-heading);
+    font-size: var(--fs-2xl);
+  }
+
+  .notfound__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-block-start: var(--space-lg);
+  }
+</style>
