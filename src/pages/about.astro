@@ -2,8 +2,10 @@
 import { Image } from 'astro:assets';
 
 import Button from '~/components/Button.astro';
+import EducationList from '~/components/EducationList.astro';
 import Section from '~/components/Section.astro';
 import BaseLayout from '~/layouts/BaseLayout.astro';
+import { DEGREES, TRAINING } from '~/config/education';
 import { SITE } from '~/config/site';
 import { withBase } from '~/utils/url';
 
@@ -81,11 +83,12 @@ import portrait from '~/assets/portrait.jpg';
     </dl>
   </Section>
 
-  <Section title="Освіта та досвід" narrow>
-    <p class="text-muted">
-      Блок-заглушка. Тут буде інформація про освіту, навчальні програми та
-      підвищення кваліфікації — додам після того, як ви надішлете дані.
-    </p>
+  <Section title="Освіта" narrow>
+    <EducationList entries={DEGREES} />
+  </Section>
+
+  <Section title="Професійне навчання" narrow>
+    <EducationList entries={TRAINING} />
   </Section>
 
   <Section narrow variant="subtle">

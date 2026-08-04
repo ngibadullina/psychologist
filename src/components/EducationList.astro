@@ -1,0 +1,64 @@
+---
+import type { EducationEntry } from '~/config/education';
+
+interface Props {
+  entries: readonly EducationEntry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<ul class="education">
+  {
+    entries.map((entry) => (
+      <li class="education__item">
+        <span class="education__year">{entry.year}</span>
+        <span class="education__body">
+          <span class="education__title">{entry.title}</span>
+          <span class="education__institution">{entry.institution}</span>
+        </span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .education {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .education__item {
+    display: grid;
+    gap: var(--space-3xs);
+  }
+
+  .education__year {
+    color: var(--color-accent);
+    font-size: var(--fs-sm);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .education__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  .education__institution {
+    color: var(--color-text-muted);
+    font-size: var(--fs-sm);
+  }
+
+  @media (min-width: 36em) {
+    .education__item {
+      grid-template-columns: 4rem 1fr;
+      gap: var(--space-sm);
+      align-items: baseline;
+    }
+  }
+</style>
