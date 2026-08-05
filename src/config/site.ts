@@ -54,8 +54,6 @@ export const CONTACTS = {
     label: '@natalia.gibadullina_',
     url: 'https://instagram.com/natalia.gibadullina_',
   },
-  /** Формат и часовой пояс для блока контактов — заглушка */
-  location: 'Онлайн · Київ, UTC+2',
 } as const;
 
 /** Основная навигация. Пути указываются без BASE_PATH — он добавляется хелпером withBase(). */
