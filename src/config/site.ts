@@ -45,7 +45,7 @@ export const SITE = {
  * location пока заглушка — уточните формат и часовой пояс.
  */
 export const CONTACTS = {
-  email: 'nataliagibadullina@gmail.com',
+  email: 'gibadullinanatalia@gmail.com',
   telegram: {
     label: '@na_ta_8',
     url: 'https://t.me/na_ta_8',
