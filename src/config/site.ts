@@ -11,8 +11,8 @@
 /**
  * Сценарий публикации.
  *
- * 1) GitHub Pages в подпапке репозитория — https://yradov.github.io/psychologist/
- *      SITE_URL  = 'https://yradov.github.io'
+ * 1) GitHub Pages в подпапке репозитория — https://ngibadullina.github.io/psychologist/
+ *      SITE_URL  = 'https://ngibadullina.github.io'
  *      BASE_PATH = '/psychologist'
  *
  * 2) Собственный домен — https://example.com/
@@ -21,7 +21,7 @@
  *
  * Сейчас настроен сценарий 1.
  */
-export const SITE_URL = 'https://yradov.github.io';
+export const SITE_URL = 'https://ngibadullina.github.io';
 export const BASE_PATH = '/psychologist';
 
 export const SITE = {

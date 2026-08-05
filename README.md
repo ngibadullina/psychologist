@@ -38,7 +38,7 @@ astro.config.ts    конфигурация Astro: site, base, интеграц�
 Адрес сайта задаётся в одном месте — [`src/config/site.ts`](src/config/site.ts):
 
 ```ts
-export const SITE_URL = 'https://yradov.github.io';
+export const SITE_URL = 'https://ngibadullina.github.io';
 export const BASE_PATH = '/psychologist';
 ```
 
