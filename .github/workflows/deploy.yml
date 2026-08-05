@@ -22,14 +22,14 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install, build, and upload site
-        uses: withastro/action@v5
+        uses: withastro/action@v6
         with:
-          # Astro 7 требует Node >= 22.12 — фиксируем версию явно,
-          # чтобы сборка не зависела от значения по умолчанию в action.
-          node-version: 22
+          # Та же версия Node, что и на машине разработчика.
+          # В package.json указано "engines": { "node": ">=22.12.0" }.
+          node-version: 24
 
   deploy:
     name: Deploy
@@ -43,4 +43,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
