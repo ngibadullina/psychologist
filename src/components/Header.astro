@@ -1,7 +1,15 @@
 ---
+import { Image } from 'astro:assets';
+
 import MobileNavigation from '~/components/MobileNavigation.astro';
 import { NAV_LINKS, SITE } from '~/config/site';
 import { isActivePath, withBase } from '~/utils/url';
+
+/**
+ * Логотип генерируется из __assets__/logo.png командой npm run icons.
+ * Оттуда же берутся фавиконки в public/.
+ */
+import logo from '~/assets/logo.png';
 
 const currentPath = Astro.url.pathname;
 ---
@@ -9,8 +17,19 @@ const currentPath = Astro.url.pathname;
 <header class="site-header">
   <div class="container site-header__inner">
     <a class="brand" href={withBase('/')}>
-      <span class="brand__name">{SITE.author}</span>
-      <span class="brand__role">{SITE.role}</span>
+      <Image
+        src={logo}
+        alt=""
+        width={44}
+        height={44}
+        densities={[1, 2]}
+        loading="eager"
+        class="brand__logo"
+      />
+      <span class="brand__text">
+        <span class="brand__name">{SITE.author}</span>
+        <span class="brand__role">{SITE.role}</span>
+      </span>
     </a>
 
     <nav class="site-nav" aria-label="Основна навігація">
@@ -65,9 +84,23 @@ const currentPath = Astro.url.pathname;
 
   .brand {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-width: 0; /* иначе длинное имя распирает шапку на узких экранах */
     color: var(--color-text);
     text-decoration: none;
+  }
+
+  .brand__logo {
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .brand__text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
   }
 
   .brand__name {

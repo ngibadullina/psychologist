@@ -11,6 +11,7 @@
     "build": "astro build",
     "build:offline": "astro build --config astro.config.offline.ts && node scripts/make-offline.mjs",
     "preview": "astro preview",
+    "icons": "node scripts/make-icons.mjs",
     "check": "astro check",
     "astro": "astro"
   },
