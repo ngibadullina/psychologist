@@ -64,8 +64,15 @@ export const CONTACTS = {
  */
 export const INSTAGRAM_ENABLED: boolean = false;
 
-/** Основная навигация. Пути указываются без BASE_PATH — он добавляется хелпером withBase(). */
-export const NAV_LINKS = [
+/**
+ * Блог скрыт, пока нет ни одной статьи.
+ * Поставьте true — вернутся пункт меню, блок «Останні статті» на главной,
+ * кнопка на странице 404 и страница блога в sitemap.
+ */
+export const BLOG_ENABLED: boolean = false;
+
+/** Все разделы сайта. Пути указываются без BASE_PATH — он добавляется хелпером withBase(). */
+const ALL_NAV_LINKS = [
   { href: '/', label: 'Головна' },
   { href: '/about/', label: 'Про мене' },
   { href: '/services/', label: 'Запити' },
@@ -73,3 +80,11 @@ export const NAV_LINKS = [
   { href: '/blog/', label: 'Блог' },
   { href: '/contacts/', label: 'Контакти' },
 ] as const;
+
+/**
+ * Основная навигация: шапка, мобильное меню и подвал берут её отсюда,
+ * поэтому скрытый раздел достаточно отфильтровать в одном месте.
+ */
+export const NAV_LINKS = ALL_NAV_LINKS.filter(
+  (link) => BLOG_ENABLED || link.href !== '/blog/',
+);

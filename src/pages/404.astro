@@ -2,12 +2,13 @@
 import Button from '~/components/Button.astro';
 import Section from '~/components/Section.astro';
 import BaseLayout from '~/layouts/BaseLayout.astro';
+import { BLOG_ENABLED } from '~/config/site';
 import { withBase } from '~/utils/url';
 ---
 
 <BaseLayout
   title="Сторінку не знайдено"
-  description="Такої сторінки немає. Поверніться на головну або перегляньте блог."
+  description="Такої сторінки немає. Поверніться на головну або перегляньте інші розділи."
 >
   <Section narrow>
     <p class="notfound__code">404</p>
@@ -18,7 +19,14 @@ import { withBase } from '~/utils/url';
 
     <div class="notfound__actions">
       <Button href={withBase('/')}>На головну</Button>
-      <Button href={withBase('/blog/')} variant="secondary">До блогу</Button>
+      {
+        BLOG_ENABLED && (
+          <Button href={withBase('/blog/')} variant="secondary">
+            До блогу
+          </Button>
+        )
+      }
+      <Button href={withBase('/about/')} variant="secondary">Про мене</Button>
       <Button href={withBase('/contacts/')} variant="ghost">Контакти</Button>
     </div>
   </Section>

@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-import { BASE_PATH, SITE_URL } from './src/config/site';
+import { BASE_PATH, BLOG_ENABLED, SITE_URL } from './src/config/site';
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,5 +16,11 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // Пока блог скрыт, его страницу не предлагаем поисковикам:
+      // индексировать раздел без статей незачем.
+      filter: (page) => BLOG_ENABLED || !page.includes('/blog/'),
+    }),
+  ],
 });

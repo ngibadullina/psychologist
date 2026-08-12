@@ -6,7 +6,7 @@ import Section from '~/components/Section.astro';
 import ServiceCard from '~/components/ServiceCard.astro';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import { SERVICE_GROUPS } from '~/config/services';
-import { INSTAGRAM_ENABLED } from '~/config/site';
+import { BLOG_ENABLED, INSTAGRAM_ENABLED } from '~/config/site';
 import { withBase } from '~/utils/url';
 ---
 
@@ -80,15 +80,20 @@ import { withBase } from '~/utils/url';
     </p>
   </Section>
 
-  <Section title="Останні статті" variant="subtle">
-    <p class="text-muted">
-      Блог з’явиться на наступному етапі — тоді тут автоматично відображатимуться
-      три останні статті.
-    </p>
-    <p class="section-actions">
-      <Button href={withBase('/blog/')} variant="ghost">Перейти до блогу</Button>
-    </p>
-  </Section>
+  {
+    BLOG_ENABLED && (
+      <Section title="Останні статті" variant="subtle">
+        <p class="text-muted">
+          Тут відображатимуться три останні статті.
+        </p>
+        <p class="section-actions">
+          <Button href={withBase('/blog/')} variant="ghost">
+            Перейти до блогу
+          </Button>
+        </p>
+      </Section>
+    )
+  }
 
   <Section title="Зв’язатися та записатися" narrow>
     <p class="lead">
