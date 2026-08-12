@@ -1,7 +1,9 @@
 ---
 import Section from '~/components/Section.astro';
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import { CONTACTS } from '~/config/site';
+import { CONTACTS, INSTAGRAM_ENABLED } from '~/config/site';
+
+const messengers = INSTAGRAM_ENABLED ? 'у Telegram або Instagram' : 'у Telegram';
 ---
 
 <BaseLayout
@@ -31,9 +33,9 @@ import { CONTACTS } from '~/config/site';
   <Section title="Звернення" narrow>
     <p>
       Зв’язок відбувається напряму: електронною поштою
-      (<a href={`mailto:${CONTACTS.email}`}>{CONTACTS.email}</a>), у Telegram або
-      Instagram. Повідомлення зберігається в тому сервісі, через який ви
-      написали, за його власними правилами.
+      (<a href={`mailto:${CONTACTS.email}`}>{CONTACTS.email}</a>), {messengers}.
+      Повідомлення зберігається в тому сервісі, через який ви написали, за його
+      власними правилами.
     </p>
     <p>
       Я не передаю ваші контакти третім особам, не додаю їх до розсилок і не

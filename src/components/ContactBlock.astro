@@ -1,6 +1,6 @@
 ---
 import Button from '~/components/Button.astro';
-import { CONTACTS } from '~/config/site';
+import { CONTACTS, INSTAGRAM_ENABLED } from '~/config/site';
 
 interface Props {
   /** Показывать подробный список контактов под кнопками */
@@ -16,9 +16,13 @@ const { showDetails = true } = Astro.props;
     <Button href={CONTACTS.telegram.url} variant="secondary" external>
       Telegram
     </Button>
-    <Button href={CONTACTS.instagram.url} variant="secondary" external>
-      Instagram
-    </Button>
+    {
+      INSTAGRAM_ENABLED && (
+        <Button href={CONTACTS.instagram.url} variant="secondary" external>
+          Instagram
+        </Button>
+      )
+    }
   </div>
 
   {
@@ -36,12 +40,16 @@ const { showDetails = true } = Astro.props;
           </a>
         </dd>
 
-        <dt>Instagram</dt>
-        <dd>
-          <a href={CONTACTS.instagram.url} target="_blank" rel="noopener">
-            {CONTACTS.instagram.label}
-          </a>
-        </dd>
+        {INSTAGRAM_ENABLED && (
+          <Fragment>
+            <dt>Instagram</dt>
+            <dd>
+              <a href={CONTACTS.instagram.url} target="_blank" rel="noopener">
+                {CONTACTS.instagram.label}
+              </a>
+            </dd>
+          </Fragment>
+        )}
       </dl>
     )
   }

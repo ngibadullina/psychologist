@@ -20,10 +20,17 @@ import portrait from '~/assets/portrait.jpg';
     <div class="hero__content">
       <p class="hero__role">{SITE.role}</p>
       <h1 class="hero__name">{SITE.author}</h1>
-      <p class="lead hero__lead">
-        Індивідуальні консультації онлайн та очно. Простір, де можна спокійно
-        розібратися у своїх почуттях — без поспіху, оцінок і тиску.
-      </p>
+      <div class="hero__lead">
+        <p class="lead">Індивідуальні консультації онлайн та очно.</p>
+        <p class="lead">
+          Простір, де можна спокійно розібратися у своїх почуттях — без поспіху,
+          оцінок і тиску.
+        </p>
+        <p class="lead">
+          Я працюю з жінками, які більше не хочуть жити через напругу і готові
+          повернути контакт із собою.
+        </p>
+      </div>
 
       <div class="hero__actions">
         <Button href={withBase('/contacts/')}>Записатися на консультацію</Button>
@@ -72,6 +79,11 @@ import portrait from '~/assets/portrait.jpg';
 
   .hero__lead {
     margin-block-start: var(--space-md);
+  }
+
+  /* Глобальный сброс обнуляет margin — задаём отступ между абзацами лида */
+  .hero__lead > p + p {
+    margin-block-start: var(--space-sm);
   }
 
   .hero__actions {

@@ -1,5 +1,5 @@
 ---
-import { CONTACTS, NAV_LINKS, SITE } from '~/config/site';
+import { CONTACTS, INSTAGRAM_ENABLED, NAV_LINKS, SITE } from '~/config/site';
 import { withBase } from '~/utils/url';
 
 const year = new Date().getFullYear();
@@ -44,16 +44,20 @@ const year = new Date().getFullYear();
             Telegram {CONTACTS.telegram.label}
           </a>
         </li>
-        <li>
-          <a
-            class="site-footer__link"
-            href={CONTACTS.instagram.url}
-            target="_blank"
-            rel="noopener"
-          >
-            Instagram {CONTACTS.instagram.label}
-          </a>
-        </li>
+        {
+          INSTAGRAM_ENABLED && (
+            <li>
+              <a
+                class="site-footer__link"
+                href={CONTACTS.instagram.url}
+                target="_blank"
+                rel="noopener"
+              >
+                Instagram {CONTACTS.instagram.label}
+              </a>
+            </li>
+          )
+        }
       </ul>
     </div>
   </div>
