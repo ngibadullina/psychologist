@@ -1,20 +1,153 @@
 ---
+import Button from '~/components/Button.astro';
 import Section from '~/components/Section.astro';
 import BaseLayout from '~/layouts/BaseLayout.astro';
+import { CONTACTS } from '~/config/site';
+import { withBase } from '~/utils/url';
 ---
 
 <BaseLayout
   title="Формат роботи"
-  description="Як проходять консультації: тривалість, періодичність, онлайн та очний формат."
+  description="Як проходить консультація для жінок: гештальт-підхід, метафоричні карти та арт-терапія. Тривалість, формат зустрічей та умови роботи."
 >
   <Section narrow>
-    <h1>Формат консультацій</h1>
-    <p class="lead">
-      Як проходить зустріч, скільки триває та як домовитися про час.
-    </p>
-    <p class="text-muted">
-      Розділ у розробці. Тут опишемо тривалість зустрічі, періодичність, онлайн
-      та очний формат і те, як відбувається перша консультація.
+    <h1>Формат роботи</h1>
+    <p class="lead intro">Це не формат «поговорили — стало легше».</p>
+    <p class="lead">Ми працюємо глибше.</p>
+  </Section>
+
+  <Section title="Як я працюю" narrow variant="subtle">
+    <p class="list-label">Я поєдную:</p>
+    <ul class="dot-list">
+      <li>гештальт-підхід</li>
+      <li>метафоричні карти</li>
+      <li>арт-терапію</li>
+    </ul>
+
+    <p class="list-after">
+      Це дозволяє обійти звичні захисти і дістатися до того, що насправді
+      впливає на ваше життя.
     </p>
   </Section>
+
+  <Section title="Як проходить консультація" narrow>
+    <p>Консультація — це простір, де не потрібно тримати себе.</p>
+    <p>Ми починаємо з того, що для вас зараз важливо. У вашому темпі.</p>
+    <p>
+      У процесі роботи стає видно те, що раніше залишалося непоміченим: емоції,
+      реакції, внутрішні сценарії.
+    </p>
+    <p>Я допомагаю не тільки зрозуміти — а прожити і відчути зміни в житті.</p>
+  </Section>
+
+  <Section title="Що змінюється у процесі роботи" narrow variant="subtle">
+    <p>У процесі роботи змінюється не тільки розуміння.</p>
+    <p>Змінюється стан.</p>
+    <p>Це відбувається не швидко, але глибоко і стабільно.</p>
+
+    <p class="list-label">Поступово:</p>
+    <ul class="dot-list">
+      <li>зникає постійна внутрішня напруга</li>
+      <li>з’являється ясність</li>
+      <li>стає зрозуміло, чого ви хочете</li>
+      <li>формується внутрішня опора</li>
+      <li>змінюється якість стосунків і життя в цілому</li>
+    </ul>
+  </Section>
+
+  <Section title="Як я не працюю" narrow>
+    <p class="list-label">Я не працюю в форматі:</p>
+    <ul class="dot-list">
+      <li>готових інструкцій «як правильно»</li>
+      <li>швидких порад</li>
+      <li>поверхневих рішень</li>
+    </ul>
+
+    <p class="list-after">Це глибока робота з собою та внутрішнім світом.</p>
+  </Section>
+
+  <Section variant="subtle">
+    <div class="card-grid">
+      <article class="card">
+        <h2 class="fit__title">Кому підійде</h2>
+        <p class="fit__label">Ця робота для вас, якщо:</p>
+        <ul class="dot-list">
+          <li>ви звикли бути сильною, але більше не хочете так жити</li>
+          <li>відчуваєте втому, напругу або внутрішню порожнечу</li>
+          <li>переживаєте складні або виснажливі стосунки</li>
+          <li>хочете не просто підтримки — а глибоких змін</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2 class="fit__title">Кому не підійде</h2>
+        <p class="fit__label">Ця робота не підійде, якщо:</p>
+        <ul class="dot-list">
+          <li>ви шукаєте швидке рішення</li>
+          <li>хочете отримати чіткі інструкції</li>
+          <li>зараз немає ресурсу на тривалу глибинну роботу</li>
+        </ul>
+      </article>
+    </div>
+  </Section>
+
+  <Section title="Умови" narrow>
+    <div class="card">
+      <ul class="dot-list">
+        <li>50–60 хвилин</li>
+        <li>онлайн або очно</li>
+        <li>конфіденційно</li>
+        <li>регулярність зустрічей узгоджується</li>
+      </ul>
+    </div>
+  </Section>
+
+  <Section narrow variant="subtle">
+    <p class="lead">
+      Якщо формат вам відгукується — напишіть, і ми домовимося про час.
+    </p>
+    <div class="format__cta">
+      <Button href={withBase('/contacts/')}>Записатися на консультацію</Button>
+      <Button href={CONTACTS.telegram.url} variant="secondary" external>
+        Написати в Telegram
+      </Button>
+    </div>
+  </Section>
 </BaseLayout>
+
+<style>
+  /* Глобальный сброс обнуляет margin — задаём ритм между абзацами */
+  p + p {
+    margin-block-start: var(--space-md);
+  }
+
+  .intro {
+    margin-block-start: var(--space-md);
+  }
+
+  /* Строка-подводка перед списком стоит ближе к нему, чем к тексту выше */
+  .list-label {
+    margin-block-end: var(--space-sm);
+  }
+
+  .list-after {
+    margin-block-start: var(--space-md);
+  }
+
+  .fit__title {
+    font-size: var(--fs-lg);
+  }
+
+  .fit__label {
+    margin-block: var(--space-2xs) var(--space-sm);
+    color: var(--color-text-muted);
+    font-size: var(--fs-sm);
+  }
+
+  .format__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-block-start: var(--space-lg);
+  }
+</style>
