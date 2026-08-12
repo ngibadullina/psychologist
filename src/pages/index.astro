@@ -13,7 +13,7 @@ import { withBase } from '~/utils/url';
 <BaseLayout>
   <Hero />
 
-  <Section title="Мій підхід" narrow variant="subtle">
+  <Section title="Про мене" narrow variant="subtle">
     <p>
       Я — психолог-консультант, <span class="nowrap">гештальт-терапевт</span>.
       У своїй роботі допомагаю людині краще зрозуміти себе, свої емоції та
@@ -27,7 +27,7 @@ import { withBase } from '~/utils/url';
     </p>
     <p class="section-actions">
       <Button href={withBase('/about/')} variant="ghost">
-        Докладніше про підхід
+        Докладніше про мене
       </Button>
     </p>
   </Section>
@@ -101,6 +101,11 @@ import { withBase } from '~/utils/url';
 </BaseLayout>
 
 <style>
+  /* Глобальный сброс обнуляет margin — задаём ритм между абзацами секций */
+  p + p {
+    margin-block-start: var(--space-md);
+  }
+
   .section-actions {
     margin-block-start: var(--space-lg);
   }
