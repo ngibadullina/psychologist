@@ -30,8 +30,8 @@ npm run dev:host
 Astro выведет два адреса — берите строку `Network`:
 
 ```
-Local    http://localhost:4321/psychologist/
-Network  http://192.168.1.5:4321/psychologist/
+Local    http://localhost:4321/
+Network  http://192.168.1.5:4321/
 ```
 
 Этот адрес открывается на телефоне, планшете или другом компьютере.
@@ -41,8 +41,7 @@ Network  http://192.168.1.5:4321/psychologist/
 - устройства в одной сети Wi-Fi, компьютер не в режиме гостевой сети;
 - компьютер с запущенным сервером остаётся включённым;
 - при первом запуске Windows спросит разрешение брандмауэра — нужно разрешить
-  доступ для частных сетей;
-- `/psychologist/` в адресе обязателен: сайт живёт в подпапке, корень отдаёт 404.
+  доступ для частных сетей.
 
 `npm run dev:host` показывает версию для разработки. Чтобы посмотреть то, что
 реально уедет на GitHub Pages, соберите и запустите просмотр:
@@ -73,14 +72,17 @@ astro.config.ts    конфигурация Astro: site, base, интеграц�
 Адрес сайта задаётся в одном месте — [`src/config/site.ts`](src/config/site.ts):
 
 ```ts
-export const SITE_URL = 'https://ngibadullina.github.io';
-export const BASE_PATH = '/psychologist';
+export const SITE_URL = 'https://gibadullina.com';
+export const BASE_PATH = '/';
 ```
 
-- GitHub Pages в подпапке: `SITE_URL = 'https://USERNAME.github.io'`, `BASE_PATH = '/REPOSITORY'`
 - Собственный домен: `SITE_URL = 'https://example.com'`, `BASE_PATH = '/'`
+- GitHub Pages в подпапке: `SITE_URL = 'https://USERNAME.github.io'`, `BASE_PATH = '/REPOSITORY'`
 
-Локальный адрес сайта при `npm run dev` — `http://localhost:4321/psychologist/`.
+Сам домен привязывается файлом [`public/CNAME`](public/CNAME): GitHub Pages читает
+его из собранного сайта при каждой выкладке. Меняете домен — меняете эти три места.
+
+Локальный адрес сайта при `npm run dev` — `http://localhost:4321/`.
 
 Все внутренние ссылки и пути к файлам из `public/` строятся через `withBase()`
 из [`src/utils/url.ts`](src/utils/url.ts), поэтому смена сценария не требует правок в компонентах.

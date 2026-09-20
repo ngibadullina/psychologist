@@ -11,18 +11,19 @@
 /**
  * Сценарий публикации.
  *
- * 1) GitHub Pages в подпапке репозитория — https://ngibadullina.github.io/psychologist/
+ * 1) Собственный домен — https://gibadullina.com/
+ *      SITE_URL  = 'https://gibadullina.com'
+ *      BASE_PATH = '/'
+ *
+ * 2) GitHub Pages в подпапке репозитория — https://ngibadullina.github.io/psychologist/
  *      SITE_URL  = 'https://ngibadullina.github.io'
  *      BASE_PATH = '/psychologist'
  *
- * 2) Собственный домен — https://example.com/
- *      SITE_URL  = 'https://example.com'
- *      BASE_PATH = '/'
- *
  * Сейчас настроен сценарий 1.
+ * Домен привязан файлом public/CNAME — его читает GitHub Pages при выкладке.
  */
-export const SITE_URL = 'https://ngibadullina.github.io';
-export const BASE_PATH = '/psychologist';
+export const SITE_URL = 'https://gibadullina.com';
+export const BASE_PATH = '/';
 
 export const SITE = {
   /** Имя специалиста */
