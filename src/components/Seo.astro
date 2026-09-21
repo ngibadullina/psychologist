@@ -1,0 +1,86 @@
+---
+import { DEGREES } from '~/config/education';
+import { CONTACTS, INSTAGRAM_ENABLED, SITE } from '~/config/site';
+import { withBase } from '~/utils/url';
+
+/**
+ * Метаданные страницы: title, description, canonical,
+ * Open Graph и Twitter Card для превью ссылки в мессенджерах,
+ * JSON-LD с данными о специалисте — только на главной.
+ *
+ * В структурированные данные попадает лишь то, что подтверждено:
+ * имя, специализация, контакты, базовое образование.
+ * Ни отзывов, ни рейтингов, ни оценок квалификации.
+ */
+interface Props {
+  /** Готовый заголовок страницы */
+  title: string;
+  description: string;
+  /** Главная получает расширенную разметку профиля */
+  isHome?: boolean;
+}
+
+const { title, description, isHome = false } = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const ogImageUrl = new URL(withBase('/og-image.jpg'), Astro.site).href;
+
+/** Профили, на которые можно ссылаться. Скрытые в конфиге сюда не попадают. */
+const profiles = [
+  CONTACTS.telegram.url,
+  ...(INSTAGRAM_ENABLED ? [CONTACTS.instagram.url] : []),
+];
+
+const degree = DEGREES[0];
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITE.author,
+  jobTitle: SITE.role,
+  description: SITE.description,
+  url: new URL(withBase('/'), Astro.site).href,
+  image: ogImageUrl,
+  email: `mailto:${CONTACTS.email}`,
+  knowsLanguage: SITE.lang,
+  sameAs: profiles,
+  ...(degree
+    ? {
+        alumniOf: {
+          '@type': 'CollegeOrUniversity',
+          name: degree.institution,
+        },
+      }
+    : {}),
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content={SITE.locale} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={`${SITE.author} — ${SITE.role}`} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+
+{
+  isHome && (
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(personJsonLd)}
+    />
+  )
+}

@@ -2,6 +2,7 @@
 import '~/styles/global.css';
 import Footer from '~/components/Footer.astro';
 import Header from '~/components/Header.astro';
+import Seo from '~/components/Seo.astro';
 import { SITE } from '~/config/site';
 import { withBase } from '~/utils/url';
 
@@ -15,7 +16,9 @@ interface Props {
 const { title, description = SITE.description } = Astro.props;
 
 const pageTitle = title ? `${title} — ${SITE.name}` : SITE.title;
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+
+/** Страница без собственного заголовка — это главная */
+const isHome = !title;
 ---
 
 <!doctype html>
@@ -23,9 +26,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{pageTitle}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalUrl} />
+    <Seo title={pageTitle} description={description} isHome={isHome} />
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
     <link rel="icon" type="image/png" sizes="32x32" href={withBase('/favicon-32.png')} />
     <link
