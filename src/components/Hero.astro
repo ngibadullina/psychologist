@@ -63,7 +63,9 @@ import portrait from '~/assets/portrait.jpg';
   .hero__inner {
     display: grid;
     gap: var(--space-xl);
-    align-items: center;
+    /* По верхнему краю: фотография выше текста, и при центрировании
+       текст съезжал вниз относительно её верхней границы. */
+    align-items: start;
   }
 
   .hero__role {
