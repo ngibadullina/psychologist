@@ -1,0 +1,196 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+
+import Breadcrumbs from '~/components/Breadcrumbs.astro';
+import Button from '~/components/Button.astro';
+import Section from '~/components/Section.astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { CONTACTS } from '~/config/site';
+import { formatDate, getPublishedPosts, isoDate, type Post } from '~/utils/blog';
+import { withBase } from '~/utils/url';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const {
+  title,
+  description,
+  publishDate,
+  updatedDate,
+  image,
+  imageAlt,
+  category,
+  tags,
+  author,
+  draft,
+} = post.data;
+
+const { Content } = await render(post);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  imageAlt={imageAlt}
+  article={{ headline: title, publishDate, updatedDate, author, category, tags }}
+>
+  <Section narrow>
+    <article class="post">
+      <header class="post__header">
+        <Breadcrumbs
+          items={[
+            { label: 'Головна', href: withBase('/') },
+            { label: 'Блог', href: withBase('/blog/') },
+          ]}
+        />
+
+        {
+          draft && (
+            <p class="post__draft">Чернетка — у production-збірку не потрапить.</p>
+          )
+        }
+
+        <p class="post__meta">
+          <span>{category}</span>
+          <time datetime={isoDate(publishDate)}>{formatDate(publishDate)}</time>
+          {
+            updatedDate && (
+              <span>
+                оновлено <time datetime={isoDate(updatedDate)}>{formatDate(updatedDate)}</time>
+              </span>
+            )
+          }
+        </p>
+
+        <h1 class="post__title">{title}</h1>
+      </header>
+
+      {
+        image && imageAlt && (
+          <Image
+            src={image}
+            alt={imageAlt}
+            widths={[640, 960, 1280]}
+            sizes="(min-width: 48em) 44rem, 100vw"
+            format="webp"
+            loading="eager"
+            class="post__cover"
+          />
+        )
+      }
+
+      <div class="prose post__content">
+        <Content />
+      </div>
+
+      {/* Кнопки сразу под текстом: статьи обычно заканчиваются приглашением
+          на консультацию, отдельный призыв после него звучал бы повтором. */}
+      <div class="post__cta">
+        <Button href={withBase('/contacts/')}>Записатися на консультацію</Button>
+        <Button href={CONTACTS.telegram.url} variant="secondary" external>
+          Написати в Telegram
+        </Button>
+      </div>
+
+      <footer class="post__footer">
+        <ul class="post__tags" aria-label="Теги">
+          {tags.map((tag) => (
+            <li class="post__tag">{tag}</li>
+          ))}
+        </ul>
+        <a class="post__back" href={withBase('/blog/')}>Усі статті</a>
+      </footer>
+    </article>
+  </Section>
+</BaseLayout>
+
+<style>
+  .post__draft {
+    margin-block-start: var(--space-md);
+    padding: var(--space-2xs) var(--space-sm);
+    background-color: var(--color-accent-soft);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-sm);
+  }
+
+  .post__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs) var(--space-xs);
+    margin-block-start: var(--space-lg);
+    color: var(--color-text-muted);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .post__title {
+    margin-block-start: var(--space-2xs);
+  }
+
+  /* Те же пропорции, что у карточки и превью ссылки */
+  .post__cover {
+    width: 100%;
+    aspect-ratio: 1200 / 630;
+    margin-block-start: var(--space-lg);
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+
+  .post__content {
+    margin-block-start: var(--space-lg);
+  }
+
+  .post__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    margin-block-start: var(--space-xl);
+    padding-block-start: var(--space-md);
+    border-block-start: var(--border-width) solid var(--color-border);
+  }
+
+  .post__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .post__tag {
+    padding: var(--space-3xs) var(--space-xs);
+    background-color: var(--color-bg-subtle);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-muted);
+    font-size: var(--fs-xs);
+  }
+
+  .post__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-block-start: var(--space-lg);
+  }
+
+  .post__back {
+    margin-inline-start: auto;
+    font-size: var(--fs-sm);
+  }
+</style>

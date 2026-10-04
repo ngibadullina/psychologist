@@ -1,0 +1,124 @@
+---
+import { Image } from 'astro:assets';
+
+import { formatDate, isoDate, postUrl, type Post } from '~/utils/blog';
+
+interface Props {
+  post: Post;
+  /** Уровень заголовка карточки — зависит от иерархии страницы */
+  headingLevel?: 2 | 3;
+}
+
+const { post, headingLevel = 2 } = Astro.props;
+const { title, description, publishDate, image, category, draft } = post.data;
+
+const Heading = headingLevel === 3 ? 'h3' : 'h2';
+const href = postUrl(post);
+---
+
+<article class="card article-card">
+  {
+    image && (
+      <Image
+        src={image}
+        alt=""
+        widths={[400, 640, 800]}
+        sizes="(min-width: 48em) 32rem, 100vw"
+        format="webp"
+        class="article-card__image"
+      />
+    )
+  }
+
+  <div class="article-card__body">
+    <p class="article-card__meta">
+      {draft && <span class="article-card__draft">Чернетка</span>}
+      <span>{category}</span>
+      <time datetime={isoDate(publishDate)}>{formatDate(publishDate)}</time>
+    </p>
+
+    <Heading class="article-card__title">
+      <a class="article-card__link" href={href}>{title}</a>
+    </Heading>
+
+    <p class="article-card__description">{description}</p>
+  </div>
+</article>
+
+<style>
+  /* Вся карточка кликабельна: ссылка заголовка растягивается на неё через ::after.
+     Обложка декоративная (alt=""): о чём статья, говорит заголовок рядом. */
+  .article-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+    transition: box-shadow var(--transition-base);
+  }
+
+  .article-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .article-card__image {
+    width: 100%;
+    aspect-ratio: 1200 / 630;
+    object-fit: cover;
+  }
+
+  .article-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    padding: var(--space-md);
+  }
+
+  .article-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs) var(--space-xs);
+    color: var(--color-text-muted);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .article-card__draft {
+    color: var(--color-accent);
+    font-weight: var(--fw-medium);
+  }
+
+  .article-card__title {
+    font-size: var(--fs-xl);
+  }
+
+  .article-card__link {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .article-card__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .article-card:hover .article-card__link {
+    color: var(--color-accent);
+  }
+
+  .article-card__link:focus-visible {
+    outline: none;
+  }
+
+  .article-card__link:focus-visible::after {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
+    border-radius: var(--radius-lg);
+  }
+
+  .article-card__description {
+    color: var(--color-text-muted);
+  }
+</style>

@@ -350,3 +350,63 @@ hr {
 .button--ghost:active {
   background-color: var(--color-bg-subtle);
 }
+
+/* ==================================================================
+   7. Текст статей
+   Markdown превращается в HTML без классов, поэтому ритм и оформление
+   задаём через контейнер .prose. Глобальный сброс обнуляет margin —
+   все отступы между блоками описаны здесь.
+   ================================================================== */
+
+.prose > * + * {
+  margin-block-start: var(--space-md);
+}
+
+.prose > * + :is(h2, h3, h4) {
+  margin-block-start: var(--space-xl);
+}
+
+.prose > :is(h2, h3, h4) + * {
+  margin-block-start: var(--space-xs);
+}
+
+.prose h2 {
+  font-size: var(--fs-xl);
+}
+
+.prose h3 {
+  font-size: var(--fs-lg);
+}
+
+.prose :is(ul, ol) {
+  padding-inline-start: var(--space-md);
+}
+
+.prose li + li,
+.prose li > :is(ul, ol) {
+  margin-block-start: var(--space-2xs);
+}
+
+.prose li::marker {
+  color: var(--color-accent);
+}
+
+.prose blockquote {
+  padding-inline-start: var(--space-md);
+  border-inline-start: var(--space-3xs) solid var(--color-accent);
+  color: var(--color-text-muted);
+  font-family: var(--font-heading);
+  font-size: var(--fs-lg);
+}
+
+.prose blockquote > * + * {
+  margin-block-start: var(--space-sm);
+}
+
+.prose img {
+  border-radius: var(--radius-md);
+}
+
+.prose hr {
+  margin-block: var(--space-xl);
+}
